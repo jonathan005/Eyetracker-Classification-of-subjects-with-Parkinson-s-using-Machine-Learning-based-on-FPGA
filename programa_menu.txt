@@ -100,27 +100,35 @@ float *layer2(float p2[])
     der[2]=dot2(p2,w3);
     return der;
 }
+void create_csv(int d, int cd){
+FILE *fp;
+
+fp=fopen("/mnt/host/archivo.csv","a+");
+fprintf(fp,"%d,%d\n",d,cd);
+fclose(fp);
+}
 
 int main ()
 {
     int i=0,j=0,k=0,q=0,r=0, opcion=0;
-    float a=0,b=0,c=0,d=0;
+    float a=0,b=0,c=0;
+    static int d=0;
     do{
         printf("\n Menu de opciones \n");
         printf("\n    1. Ingreso de datos \n");
         printf("    2. Salir\n");
         printf("\n Ingrese opcion: \n");
         scanf("%d", &opcion);
-    
+
         switch (opcion){
         case 1: printf ("Ingrese valor x\n");
                 scanf("%f", &a);
                 printf ("Ingrese valor y\n");
                 scanf("%f", &b);
-                printf ("Ingrese valor del tamaño de pupila\n");
+                printf ("Ingrese valor del tamaÃ±o de pupila\n");
                 scanf("%f", &c);
-                printf ("Ingrese código control\n");
-                scanf("%f", &d);
+                printf ("Ingrese cÃ³digo control\n");
+                scanf("%d", &d);
 
                 if (d==100){
                     printf("Control real: HC\n");
@@ -187,22 +195,27 @@ int main ()
                         maximo[1]=r;
                     }
                 }
+                static int cd=0;
                 if(maximo[1]==0)
                 {
                     //cout<<"HC"<<endl;
                     printf("Control predicho: HC\n");
+                    cd=100;
                 }
                 else if(maximo[1]==1)
                 {
                     //cout<<"LDP"<<endl;
                 	printf("Control predicho: LDP\n");
+                	cd=10;
                 }
                 else
                 {
                     //cout<<"RPD"<<endl;
                     printf("Control predicho: RPD\n");
+                    cd=1;
                 }
-        } 
+                create_csv(d,cd);
+        }
     } while (opcion!=2);
-    return 0;    
+    return 0;
 }
